@@ -54,7 +54,7 @@ class Employ(Person):
 
 
 # отделения
-class Departmens:
+class Departments:
     def __init__(self, id: int, name: str):
         self.id = id
         self.name = name
@@ -167,15 +167,15 @@ class Clinic:
         patient_ids: list[int],
         doctor_id: list[int],
         record_ids: list[int],
-        employes_ids: list[int],
-        rooms_ids: list[int],
-        departmens_ids: list[int],
+        employe_ids: list[int],
+        room_ids: list[int],
+        department_ids: list[int],
     ):
         self.id = id
         self.adress = adress
         self.patient_ids = patient_ids
         self.doctor_id = doctor_id
         self.record_ids = record_ids
-        self.employes_ids = employes_ids
-        self.rooms_ids = rooms_ids
-        self.departmens_ids = departmens_ids
+        self.employe_ids = employe_ids
+        self.room_ids = room_ids
+        self.department_ids = department_ids
