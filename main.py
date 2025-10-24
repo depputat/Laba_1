@@ -177,9 +177,9 @@ class Clinic:
         self.patient = patient
         self.doctor = doctor
         self.record = record
-        self.employe = employe
-        self.room = room
-        self.department = department
+        self.employe = employe   # cделать самому
+        self.room = room   # сделать самому - не можем удалять и добавлять!
+        self.department = department  # тоже самое как и room's
 
     def add_patient(self, patient: Patient):
         self.patient.append(patient)
@@ -190,38 +190,55 @@ class Clinic:
                 return item
 
     def update_patient(self, id: int, **kwargs):
-
         patient = self.get_patient(id)
 
         for key, value in kwargs.items():
             setattr(patient, key, value)
 
     def delete_patient(self, id: int):
-
         patient = self.get_patient(id)
 
         self.patient.remove(patient)
-
 
     def get_doctor(self, id: int):
         for item in self.doctor:
             if item.id == id:
                 return item
 
-
     def add_doctor(self, doctor: Doctor):
         self.doctor.append(doctor)
 
     def update_doctor(self, id: int, **kwargs):
-
         doctor = self.get_doctor(id)
 
         for key, value in kwargs.items():
             setattr(doctor, key, value)
 
-
     def delete_doctor(self, id: int):
-
         doctor = self.get_doctor(id)
 
         self.doctor.remove(doctor)
+
+    def get_record(self, record: Record):
+        for item in self.record:
+            if item.id == record:
+                return item
+
+    def add_record(self, record: Record):
+
+        self.record.append(record)
+
+    def update_record(self, id: int, **kwargs):
+
+        record = self.get_record(id)
+
+        for key, value in kwargs.items():
+            setattr(record, key, value)
+
+    def delete_record(self, id: int):
+
+        record = self.get_record(id)
+
+        self.record.remove(record)
+
+
