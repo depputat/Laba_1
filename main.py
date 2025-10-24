@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Person:
     def __init__(
         self,
@@ -127,9 +130,9 @@ class Patient(Person):
 
 
 class Recipe:
-    def __init__(self, id: int, med_list: list[str], number: str, data_note: str):
+    def __init__(self, id: int, med_List: List[str], number: str, data_note: str):
         self.id = id
-        self.med_list = med_list
+        self.med_List = med_List
         self.number = number
         self.data_note = data_note
 
@@ -143,7 +146,7 @@ class Diagnosis:
 
 class Record:
     def __init__(
-        self, id: int, patient_ids: int, diagnosis_ids: list[int], doctor_id: int
+        self, id: int, patient_ids: int, diagnosis_ids: List[int], doctor_id: int
     ):
         self.id = id
         self.patient_ids = patient_ids
@@ -162,20 +165,63 @@ class Rooms:
 class Clinic:
     def __init__(
         self,
-        id: int,
         adress: str,
-        patient_ids: list[int],
-        doctor_id: list[int],
-        record_ids: list[int],
-        employe_ids: list[int],
-        room_ids: list[int],
-        department_ids: list[int],
+        patient: List[Patient],
+        doctor: List[Doctor],
+        record: List[Record],
+        employe: List[Employ],
+        room: List[Rooms],
+        department: List[Departments],
     ):
-        self.id = id
         self.adress = adress
-        self.patient_ids = patient_ids
-        self.doctor_id = doctor_id
-        self.record_ids = record_ids
-        self.employe_ids = employe_ids
-        self.room_ids = room_ids
-        self.department_ids = department_ids
+        self.patient = patient
+        self.doctor = doctor
+        self.record = record
+        self.employe = employe
+        self.room = room
+        self.department = department
+
+    def add_patient(self, patient: Patient):
+        self.patient.append(patient)
+
+    def get_patient(self, id: int):
+        for item in self.patient:
+            if id == item.id:
+                return item
+
+    def update_patient(self, id: int, **kwargs):
+
+        patient = self.get_patient(id)
+
+        for key, value in kwargs.items():
+            setattr(patient, key, value)
+
+    def delete_patient(self, id: int):
+
+        patient = self.get_patient(id)
+
+        self.patient.remove(patient)
+
+
+    def get_doctor(self, id: int):
+        for item in self.doctor:
+            if item.id == id:
+                return item
+
+
+    def add_doctor(self, doctor: Doctor):
+        self.doctor.append(doctor)
+
+    def update_doctor(self, id: int, **kwargs):
+
+        doctor = self.get_doctor(id)
+
+        for key, value in kwargs.items():
+            setattr(doctor, key, value)
+
+
+    def delete_doctor(self, id: int):
+
+        doctor = self.get_doctor(id)
+
+        self.doctor.remove(doctor)
