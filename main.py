@@ -2,8 +2,6 @@ from typing import List
 import json
 
 
-
-
 class Person:
     def __init__(
         self,
@@ -21,7 +19,7 @@ class Person:
         self.birth_date = birth_date
         self.geo = geo
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Это человек, которого зовут: {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}."
 
 
@@ -47,7 +45,7 @@ class Employ(Person):
     def from_xml(cls, path):
         pass
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Работник поликлиники - {self.surname} {self.name} {self.middle_name}.\nКонтракт: {self.contract}.\nМесто проживания: {self.geo}."
 
 
@@ -255,13 +253,53 @@ class Clinic:
 
         self.record.remove(record)
 
+    def get_employe(self, id: int):
+        for item in self.employe:
+            if item.id == id:
+                return item
+
+    def add_employe(self, employe: Employ):
+        self.employe.append(employe)
+
+    def update_employe(self, id: int, **kwargs):
+        employe = self.get_employe(id)
+
+        for key, value in kwargs.items():
+            setattr(employe, key, value)
+
+    def delete_employe(self, id: int):
+        employe = self.get_employe(id)
+
+        self.employe.remove(employe)
+
+    def get_room(self, id: int):
+        for item in self.room:
+            if item.id == id:
+                return item
+
+    def update_room(self, id: int, **kwargs):
+        room = self.get_room(id)
+
+        for key, value in kwargs.items():
+            setattr(room, key, value)
+
+    def get_department(self, id: int):
+        for item in self.department:
+            if item.id == id:
+                return item
+
+    def update_department(self, id: int, **kwargs):
+        department = self.get_department(id)
+
+        for key, value in kwargs.items():
+            setattr(department, key, value)
+
     @staticmethod
     def from_json(cls, path):
         with open(path, "r") as file:
             res = json.load(file)
 
             # разрабатывается
-
 
     def to_json(self, path):
         data = {
@@ -289,7 +327,7 @@ ivan = Doctor(
     1, "Ivan", "Ivanin", "Ivanovich", "21.06.2003", "Mahachkala", "23", "hz", 52
 )
 matrena = Patient(
-    1, "Matrena", "Matrenina", "Vladislavovna", "12.03.2006", "Derbent", "+79002001000"
+    1, "Matrena", "Matrenina", "Vladislavovna", "13.02.2004", "Derbent", "+79002001000"
 )
 medsi = Clinic("Moskva", [matrena], [ivan], [], [], [], [])
 medsi.to_json("example.json")
