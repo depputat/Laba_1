@@ -1,4 +1,7 @@
 from typing import List
+import json
+
+
 
 
 class Person:
@@ -18,16 +21,8 @@ class Person:
         self.birth_date = birth_date
         self.geo = geo
 
-    @staticmethod
-    def from_json(cls, path):
-        pass
-
-    @staticmethod
-    def from_xml(cls, path):
-        pass
-
     def get_info(self):
-        pass
+        return f"Это человек, которого зовут: {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}."
 
 
 class Employ(Person):
@@ -53,7 +48,7 @@ class Employ(Person):
         pass
 
     def get_info(self):
-        pass
+        return f"Работник поликлиники - {self.surname} {self.name} {self.middle_name}.\nКонтракт: {self.contract}.\nМесто проживания: {self.geo}."
 
 
 # отделения
@@ -61,6 +56,9 @@ class Departments:
     def __init__(self, id: int, name: str):
         self.id = id
         self.name = name
+
+    def get_info(self):
+        return f"Это отделение - {self.name}."
 
 
 class Doctor(Employ):
@@ -80,11 +78,17 @@ class Doctor(Employ):
         self.specialization = specialization
         self.departament_id = departament_id
 
+    def get_info(self):
+        return f"Это врач: {self.surname} {self.name} {self.middle_name}.\nСпециализация: {self.specialization}.\nРаботает в {self.departament_id} отделении."
+
 
 class Inventory:
     def __init__(self, id: int, item: str):
         self.id = id
         self.item = item
+
+    def get_info(self):
+        return f"Это инвентарь. Содержимое инвентаря: {self.item}."
 
 
 class Staff(Employ):
@@ -97,10 +101,13 @@ class Staff(Employ):
         birth_date: str,
         geo: str,
         contract: str,
-        dubinka_id: int,
+        dubinka: int,
     ):
         super().__init__(id, name, surname, middle, birth_date, geo, contract)
-        self.dubinka_id = dubinka_id
+        self.dubinka = dubinka
+
+    def get_info(self):
+        return f"Это охранник - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nКонтракт: {self.contract}.\nОборонительное оружие: {self.dubinka}"
 
 
 class Patient(Person):
@@ -117,24 +124,19 @@ class Patient(Person):
         super().__init__(id, name, surname, middle_name, birth_date, geo)
         self.number_phone = number_phone
 
-    @staticmethod
-    def from_json(cls, path):
-        pass
-
-    @staticmethod
-    def from_xml(cls, path):
-        pass
-
     def get_info(self):
-        pass
+        return f"Пациент - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nНомер телефона: {self.number_phone}."
 
 
 class Recipe:
-    def __init__(self, id: int, med_List: List[str], number: str, data_note: str):
+    def __init__(self, id: int, med_list: List[str], number: str, data_note: str):
         self.id = id
-        self.med_List = med_List
+        self.med_list = med_list
         self.number = number
         self.data_note = data_note
+
+    def get_info(self):
+        return f"Это рецепт.\nНомер рецепта: {self.number}.\nДата записи: {self.data_note}.\nСодержимое рецепта: {self.med_list}."
 
 
 class Diagnosis:
@@ -143,15 +145,27 @@ class Diagnosis:
         self.number_mkb = number_mkb
         self.description = description
 
+    def get_info(self):
+        return f"Диагноз №{self.number_mkb}.\nРасшифровка: {self.description}."
+
 
 class Record:
     def __init__(
-        self, id: int, patient_ids: int, diagnosis_ids: List[int], doctor_id: int
+        self,
+        id: int,
+        patient_id: int,
+        diagnosis_ids: List[int],
+        doctor_id: int,
+        data: str,
     ):
         self.id = id
-        self.patient_ids = patient_ids
+        self.patient_id = patient_id
         self.diagnosis_ids = diagnosis_ids
         self.doctor_id = doctor_id
+        self.data = data
+
+    def get_ifo(self) -> str:
+        return f"Пациент: {self.patient_id}.\nС диагнозом: {self.diagnosis_ids}.\nПод наблюдением врача: {self.doctor_id}.\nДата приема: {self.data}."
 
 
 # кабинеты
@@ -160,6 +174,9 @@ class Rooms:
         self.id = id
         self.number_room = number_room
         self.department_id = department_id
+
+    def get_info(self):
+        return f"Комната №{self.number_room}.\nПринадлежит отделению: {self.department_id}."
 
 
 class Clinic:
@@ -177,8 +194,8 @@ class Clinic:
         self.patient = patient
         self.doctor = doctor
         self.record = record
-        self.employe = employe   # cделать самому
-        self.room = room   # сделать самому - не можем удалять и добавлять!
+        self.employe = employe  # cделать самому
+        self.room = room  # сделать самому - не можем удалять и добавлять!
         self.department = department  # тоже самое как и room's
 
     def add_patient(self, patient: Patient):
@@ -219,26 +236,60 @@ class Clinic:
 
         self.doctor.remove(doctor)
 
-    def get_record(self, record: Record):
+    def get_record(self, id: int):
         for item in self.record:
-            if item.id == record:
+            if item.id == id:
                 return item
 
     def add_record(self, record: Record):
-
         self.record.append(record)
 
     def update_record(self, id: int, **kwargs):
-
         record = self.get_record(id)
 
         for key, value in kwargs.items():
             setattr(record, key, value)
 
     def delete_record(self, id: int):
-
         record = self.get_record(id)
 
         self.record.remove(record)
 
+    @staticmethod
+    def from_json(cls, path):
+        with open(path, "r") as file:
+            res = json.load(file)
 
+            # разрабатывается
+
+
+    def to_json(self, path):
+        data = {
+            "adress": self.adress,
+            "patient": [item.__dict__ for item in self.patient],
+            "doctor": [item.__dict__ for item in self.doctor],
+            "record": [item.__dict__ for item in self.record],
+            "employe": [item.__dict__ for item in self.employe],
+            "room": [item.__dict__ for item in self.room],
+            "department": [item.__dict__ for item in self.department],
+        }
+
+        with open(path, "w") as file:
+            json.dump(data, file, ensure_ascii=False)
+
+    @staticmethod
+    def from_xml(cls, path):
+        pass
+
+    def to_xml(self, path):
+        pass
+
+
+ivan = Doctor(
+    1, "Ivan", "Ivanin", "Ivanovich", "21.06.2003", "Mahachkala", "23", "hz", 52
+)
+matrena = Patient(
+    1, "Matrena", "Matrenina", "Vladislavovna", "12.03.2006", "Derbent", "+79002001000"
+)
+medsi = Clinic("Moskva", [matrena], [ivan], [], [], [], [])
+medsi.to_json("example.json")
