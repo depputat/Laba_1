@@ -11,7 +11,7 @@ class Person:
         middle_name: str,
         birth_date: str,
         geo: str,
-    ):
+    ) -> None:
         self.id = id
         self.name = name
         self.surname = surname
@@ -33,16 +33,16 @@ class Employ(Person):
         birth_date: str,
         geo: str,
         contract: str,
-    ):
+    ) -> None:
         super().__init__(id, name, surname, middle, birth_date, geo)
         self.contract = contract
 
     @staticmethod
-    def from_json(cls, path):
+    def from_json(cls, path) -> None:
         pass
 
     @staticmethod
-    def from_xml(cls, path):
+    def from_xml(cls, path) -> None:
         pass
 
     def get_info(self) -> str:
@@ -51,11 +51,11 @@ class Employ(Person):
 
 # отделения
 class Departments:
-    def __init__(self, id: int, name: str):
+    def __init__(self, id: int, name: str) -> None:
         self.id = id
         self.name = name
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Это отделение - {self.name}."
 
 
@@ -71,21 +71,21 @@ class Doctor(Employ):
         contract: str,
         specialization: str,
         departament_id: int,
-    ):
+    ) -> None:
         super().__init__(id, name, surname, middle, birth_date, geo, contract)
         self.specialization = specialization
         self.departament_id = departament_id
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Это врач: {self.surname} {self.name} {self.middle_name}.\nСпециализация: {self.specialization}.\nРаботает в {self.departament_id} отделении."
 
 
 class Inventory:
-    def __init__(self, id: int, item: str):
+    def __init__(self, id: int, item: str) -> None:
         self.id = id
         self.item = item
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Это инвентарь. Содержимое инвентаря: {self.item}."
 
 
@@ -100,11 +100,11 @@ class Staff(Employ):
         geo: str,
         contract: str,
         dubinka: int,
-    ):
+    ) -> None:
         super().__init__(id, name, surname, middle, birth_date, geo, contract)
         self.dubinka = dubinka
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Это охранник - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nКонтракт: {self.contract}.\nОборонительное оружие: {self.dubinka}"
 
 
@@ -118,32 +118,34 @@ class Patient(Person):
         birth_date: str,
         geo: str,
         number_phone: str,
-    ):
+    ) -> None:
         super().__init__(id, name, surname, middle_name, birth_date, geo)
         self.number_phone = number_phone
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Пациент - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nНомер телефона: {self.number_phone}."
 
 
 class Recipe:
-    def __init__(self, id: int, med_list: List[str], number: str, data_note: str):
+    def __init__(
+        self, id: int, med_list: List[str], number: str, data_note: str
+    ) -> None:
         self.id = id
         self.med_list = med_list
         self.number = number
         self.data_note = data_note
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Это рецепт.\nНомер рецепта: {self.number}.\nДата записи: {self.data_note}.\nСодержимое рецепта: {self.med_list}."
 
 
 class Diagnosis:
-    def __init__(self, id: int, number_mkb: str, description: str):
+    def __init__(self, id: int, number_mkb: str, description: str) -> None:
         self.id = id
         self.number_mkb = number_mkb
         self.description = description
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Диагноз №{self.number_mkb}.\nРасшифровка: {self.description}."
 
 
@@ -155,25 +157,25 @@ class Record:
         diagnosis_ids: List[int],
         doctor_id: int,
         data: str,
-    ):
+    ) -> None:
         self.id = id
         self.patient_id = patient_id
         self.diagnosis_ids = diagnosis_ids
         self.doctor_id = doctor_id
         self.data = data
 
-    def get_ifo(self) -> str:
+    def get_info(self) -> str:
         return f"Пациент: {self.patient_id}.\nС диагнозом: {self.diagnosis_ids}.\nПод наблюдением врача: {self.doctor_id}.\nДата приема: {self.data}."
 
 
 # кабинеты
 class Rooms:
-    def __init__(self, id: int, number_room: str, department_id: int):
+    def __init__(self, id: int, number_room: str, department_id: int) -> None:
         self.id = id
         self.number_room = number_room
         self.department_id = department_id
 
-    def get_info(self):
+    def get_info(self) -> str:
         return f"Комната №{self.number_room}.\nПринадлежит отделению: {self.department_id}."
 
 
@@ -187,30 +189,30 @@ class Clinic:
         employe: List[Employ],
         room: List[Rooms],
         department: List[Departments],
-    ):
+    ) -> None:
         self.adress = adress
         self.patient = patient
         self.doctor = doctor
         self.record = record
-        self.employe = employe  # cделать самому
-        self.room = room  # сделать самому - не можем удалять и добавлять!
-        self.department = department  # тоже самое как и room's
-
-    def add_patient(self, patient: Patient):
-        self.patient.append(patient)
+        self.employe = employe
+        self.room = room
+        self.department = department
 
     def get_patient(self, id: int):
         for item in self.patient:
             if id == item.id:
                 return item
 
-    def update_patient(self, id: int, **kwargs):
+    def add_patient(self, patient: Patient) -> None:
+        self.patient.append(patient)
+
+    def update_patient(self, id: int, **kwargs) -> None:
         patient = self.get_patient(id)
 
         for key, value in kwargs.items():
             setattr(patient, key, value)
 
-    def delete_patient(self, id: int):
+    def delete_patient(self, id: int) -> None:
         patient = self.get_patient(id)
 
         self.patient.remove(patient)
@@ -220,16 +222,16 @@ class Clinic:
             if item.id == id:
                 return item
 
-    def add_doctor(self, doctor: Doctor):
+    def add_doctor(self, doctor: Doctor) -> None:
         self.doctor.append(doctor)
 
-    def update_doctor(self, id: int, **kwargs):
+    def update_doctor(self, id: int, **kwargs) -> None:
         doctor = self.get_doctor(id)
 
         for key, value in kwargs.items():
             setattr(doctor, key, value)
 
-    def delete_doctor(self, id: int):
+    def delete_doctor(self, id: int) -> None:
         doctor = self.get_doctor(id)
 
         self.doctor.remove(doctor)
@@ -239,16 +241,16 @@ class Clinic:
             if item.id == id:
                 return item
 
-    def add_record(self, record: Record):
+    def add_record(self, record: Record) -> None:
         self.record.append(record)
 
-    def update_record(self, id: int, **kwargs):
+    def update_record(self, id: int, **kwargs) -> None:
         record = self.get_record(id)
 
         for key, value in kwargs.items():
             setattr(record, key, value)
 
-    def delete_record(self, id: int):
+    def delete_record(self, id: int) -> None:
         record = self.get_record(id)
 
         self.record.remove(record)
@@ -258,16 +260,16 @@ class Clinic:
             if item.id == id:
                 return item
 
-    def add_employe(self, employe: Employ):
+    def add_employe(self, employe: Employ) -> None:
         self.employe.append(employe)
 
-    def update_employe(self, id: int, **kwargs):
+    def update_employe(self, id: int, **kwargs) -> None:
         employe = self.get_employe(id)
 
         for key, value in kwargs.items():
             setattr(employe, key, value)
 
-    def delete_employe(self, id: int):
+    def delete_employe(self, id: int) -> None:
         employe = self.get_employe(id)
 
         self.employe.remove(employe)
@@ -277,7 +279,7 @@ class Clinic:
             if item.id == id:
                 return item
 
-    def update_room(self, id: int, **kwargs):
+    def update_room(self, id: int, **kwargs) -> None:
         room = self.get_room(id)
 
         for key, value in kwargs.items():
@@ -288,20 +290,20 @@ class Clinic:
             if item.id == id:
                 return item
 
-    def update_department(self, id: int, **kwargs):
+    def update_department(self, id: int, **kwargs) -> None:
         department = self.get_department(id)
 
         for key, value in kwargs.items():
             setattr(department, key, value)
 
     @staticmethod
-    def from_json(cls, path):
+    def from_json(cls, path) -> None:
         with open(path, "r") as file:
             res = json.load(file)
 
             # разрабатывается
 
-    def to_json(self, path):
+    def to_json(self, path) -> None:
         data = {
             "adress": self.adress,
             "patient": [item.__dict__ for item in self.patient],
@@ -316,10 +318,10 @@ class Clinic:
             json.dump(data, file, ensure_ascii=False)
 
     @staticmethod
-    def from_xml(cls, path):
+    def from_xml(cls, path) -> None:
         pass
 
-    def to_xml(self, path):
+    def to_xml(self, path) -> None:
         pass
 
 
