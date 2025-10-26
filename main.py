@@ -1,6 +1,6 @@
 from typing import List
 import json
-
+import xml.etree.ElementTree as ET
 
 class Person:
     def __init__(
@@ -65,14 +65,14 @@ class Doctor(Employ):
         id: int,
         name: str,
         surname: str,
-        middle: str,
+        middle_name: str,
         birth_date: str,
         geo: str,
         contract: str,
         specialization: str,
         departament_id: int,
     ) -> None:
-        super().__init__(id, name, surname, middle, birth_date, geo, contract)
+        super().__init__(id, name, surname, middle_name, birth_date, geo, contract)
         self.specialization = specialization
         self.departament_id = departament_id
 
@@ -274,7 +274,7 @@ class Clinic:
 
         self.employe.remove(employe)
 
-    def get_room(self, id: int):
+    def get_room(self, id: int) -> Rooms:
         for item in self.room:
             if item.id == id:
                 return item
@@ -285,7 +285,7 @@ class Clinic:
         for key, value in kwargs.items():
             setattr(room, key, value)
 
-    def get_department(self, id: int):
+    def get_department(self, id: int) -> Departments:
         for item in self.department:
             if item.id == id:
                 return item
@@ -297,11 +297,20 @@ class Clinic:
             setattr(department, key, value)
 
     @staticmethod
-    def from_json(cls, path) -> None:
+    def from_json(path) -> "Clinic":
         with open(path, "r") as file:
             res = json.load(file)
 
-            # разрабатывается
+            for key, value in res.items():
+                if isinstance(value, list):
+                    for item in range(len(value)):
+                        if key == 'patient':
+                            value[item] = Patient(**value[item])
+                        elif key == 'doctor':
+                            value[item] = Doctor(**value[item])
+                        # + rooms и тд  (сделать для всех)!
+        return Clinic(**res)
+
 
     def to_json(self, path) -> None:
         data = {
@@ -322,7 +331,24 @@ class Clinic:
         pass
 
     def to_xml(self, path) -> None:
-        pass
+        # Создаем корневой элемент
+        root = ET.Element("Clinica")
+        ET.SubElement(root, "adress").text = str(self.adress)
+
+        # для списков
+        c_elem = ET.SubElement(root, "patients")
+        for b_obj in self.patient:
+            b_obj_elem = ET.SubElement(c_elem, "patient")
+            ET.SubElement(b_obj_elem, "id").text = str(b_obj.id)
+            ET.SubElement(b_obj_elem, "name").text = str(b_obj.name)
+            ET.SubElement(b_obj_elem, "surname").text = str(b_obj.surname)
+            ET.SubElement(b_obj_elem, "middle_name").text = str(b_obj.middle_name)
+            ET.SubElement(b_obj_elem, "birth_date").text = str(b_obj.birth_date)
+            ET.SubElement(b_obj_elem, "geo").text = str(b_obj.geo)
+            ET.SubElement(b_obj_elem, "number_phone").text = str(b_obj.number_phone)
+        # Далее для всех этих типа классов из клиники
+        tree = ET.ElementTree(root)
+        tree.write(path, encoding="utf-8", xml_declaration=True)
 
 
 ivan = Doctor(
@@ -333,3 +359,6 @@ matrena = Patient(
 )
 medsi = Clinic("Moskva", [matrena], [ivan], [], [], [], [])
 medsi.to_json("example.json")
+medsi1 = Clinic.from_json("example.json")
+medsi1.to_xml("example.xml")
+#print(medsi1.adress)
