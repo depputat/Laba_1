@@ -331,6 +331,7 @@ class Clinic:
         pass
 
     def to_xml(self, path) -> None:
+
         # Создаем корневой элемент
         root = ET.Element("Clinica")
         ET.SubElement(root, "adress").text = str(self.adress)
