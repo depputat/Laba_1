@@ -1,182 +1,12 @@
 from typing import List
 import json
 import xml.etree.ElementTree as ET
-
-class Person:
-    def __init__(
-        self,
-        id: int,
-        name: str,
-        surname: str,
-        middle_name: str,
-        birth_date: str,
-        geo: str,
-    ) -> None:
-        self.id = id
-        self.name = name
-        self.surname = surname
-        self.middle_name = middle_name
-        self.birth_date = birth_date
-        self.geo = geo
-
-    def get_info(self) -> str:
-        return f"Это человек, которого зовут: {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}."
-
-
-class Employ(Person):
-    def __init__(
-        self,
-        id: int,
-        name: str,
-        surname: str,
-        middle: str,
-        birth_date: str,
-        geo: str,
-        contract: str,
-    ) -> None:
-        super().__init__(id, name, surname, middle, birth_date, geo)
-        self.contract = contract
-
-    @staticmethod
-    def from_json(cls, path) -> None:
-        pass
-
-    @staticmethod
-    def from_xml(cls, path) -> None:
-        pass
-
-    def get_info(self) -> str:
-        return f"Работник поликлиники - {self.surname} {self.name} {self.middle_name}.\nКонтракт: {self.contract}.\nМесто проживания: {self.geo}."
-
-
-# отделения
-class Departments:
-    def __init__(self, id: int, name: str) -> None:
-        self.id = id
-        self.name = name
-
-    def get_info(self) -> str:
-        return f"Это отделение - {self.name}."
-
-
-class Doctor(Employ):
-    def __init__(
-        self,
-        id: int,
-        name: str,
-        surname: str,
-        middle_name: str,
-        birth_date: str,
-        geo: str,
-        contract: str,
-        specialization: str,
-        departament_id: int,
-    ) -> None:
-        super().__init__(id, name, surname, middle_name, birth_date, geo, contract)
-        self.specialization = specialization
-        self.departament_id = departament_id
-
-    def get_info(self) -> str:
-        return f"Это врач: {self.surname} {self.name} {self.middle_name}.\nСпециализация: {self.specialization}.\nРаботает в {self.departament_id} отделении."
-
-
-class Inventory:
-    def __init__(self, id: int, item: str) -> None:
-        self.id = id
-        self.item = item
-
-    def get_info(self) -> str:
-        return f"Это инвентарь. Содержимое инвентаря: {self.item}."
-
-
-class Staff(Employ):
-    def __init__(
-        self,
-        id: int,
-        name: str,
-        surname: str,
-        middle: str,
-        birth_date: str,
-        geo: str,
-        contract: str,
-        dubinka: int,
-    ) -> None:
-        super().__init__(id, name, surname, middle, birth_date, geo, contract)
-        self.dubinka = dubinka
-
-    def get_info(self) -> str:
-        return f"Это охранник - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nКонтракт: {self.contract}.\nОборонительное оружие: {self.dubinka}"
-
-
-class Patient(Person):
-    def __init__(
-        self,
-        id: int,
-        name: str,
-        surname: str,
-        middle_name: str,
-        birth_date: str,
-        geo: str,
-        number_phone: str,
-    ) -> None:
-        super().__init__(id, name, surname, middle_name, birth_date, geo)
-        self.number_phone = number_phone
-
-    def get_info(self) -> str:
-        return f"Пациент - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nНомер телефона: {self.number_phone}."
-
-
-class Recipe:
-    def __init__(
-        self, id: int, med_list: List[str], number: str, data_note: str
-    ) -> None:
-        self.id = id
-        self.med_list = med_list
-        self.number = number
-        self.data_note = data_note
-
-    def get_info(self) -> str:
-        return f"Это рецепт.\nНомер рецепта: {self.number}.\nДата записи: {self.data_note}.\nСодержимое рецепта: {self.med_list}."
-
-
-class Diagnosis:
-    def __init__(self, id: int, number_mkb: str, description: str) -> None:
-        self.id = id
-        self.number_mkb = number_mkb
-        self.description = description
-
-    def get_info(self) -> str:
-        return f"Диагноз №{self.number_mkb}.\nРасшифровка: {self.description}."
-
-
-class Record:
-    def __init__(
-        self,
-        id: int,
-        patient_id: int,
-        diagnosis_ids: List[int],
-        doctor_id: int,
-        data: str,
-    ) -> None:
-        self.id = id
-        self.patient_id = patient_id
-        self.diagnosis_ids = diagnosis_ids
-        self.doctor_id = doctor_id
-        self.data = data
-
-    def get_info(self) -> str:
-        return f"Пациент: {self.patient_id}.\nС диагнозом: {self.diagnosis_ids}.\nПод наблюдением врача: {self.doctor_id}.\nДата приема: {self.data}."
-
-
-# кабинеты
-class Rooms:
-    def __init__(self, id: int, number_room: str, department_id: int) -> None:
-        self.id = id
-        self.number_room = number_room
-        self.department_id = department_id
-
-    def get_info(self) -> str:
-        return f"Комната №{self.number_room}.\nПринадлежит отделению: {self.department_id}."
+from Doctor import Doctor
+from Employe import Employe
+from Patient import Patient
+from Departments import Departments
+from Record import Record
+from Rooms import Rooms
 
 
 class Clinic:
@@ -186,7 +16,7 @@ class Clinic:
         patient: List[Patient],
         doctor: List[Doctor],
         record: List[Record],
-        employe: List[Employ],
+        employe: List[Employe],
         room: List[Rooms],
         department: List[Departments],
     ) -> None:
@@ -260,7 +90,7 @@ class Clinic:
             if item.id == id:
                 return item
 
-    def add_employe(self, employe: Employ) -> None:
+    def add_employe(self, employe: Employe) -> None:
         self.employe.append(employe)
 
     def update_employe(self, id: int, **kwargs) -> None:
@@ -304,13 +134,19 @@ class Clinic:
             for key, value in res.items():
                 if isinstance(value, list):
                     for item in range(len(value)):
-                        if key == 'patient':
+                        if key == "patient":
                             value[item] = Patient(**value[item])
-                        elif key == 'doctor':
+                        elif key == "doctor":
                             value[item] = Doctor(**value[item])
-                        # + rooms и тд  (сделать для всех)!
+                        elif key == "record":
+                            value[item] = Record(**value[item])
+                        elif key == "employe":
+                            value[item] = Employe(**value[item])
+                        elif key == "room":
+                            value[item] = Rooms(**value[item])
+                        elif key == "department":
+                            value[item] = Departments(**value[item])
         return Clinic(**res)
-
 
     def to_json(self, path) -> None:
         data = {
@@ -327,11 +163,38 @@ class Clinic:
             json.dump(data, file, ensure_ascii=False)
 
     @staticmethod
-    def from_xml(cls, path) -> None:
-        pass
+    def from_xml(path) -> "Clinic":
+        tree = ET.parse(path)
+        root = tree.getroot()
+
+        adress = root.find("adress").text
+
+        patient = []
+        c_elem = root.find("patients")
+        for b_elem in c_elem.findall("patient"):
+            id = int(b_elem.find("id").text)
+            name = str(b_elem.find("name").text)
+            surname = str(b_elem.find("surname").text)
+            middle_name = str(b_elem.find("middle_name").text)
+            birth_date = str(b_elem.find("birth_date").text)
+            geo = str(b_elem.find("geo").text)
+            number_phone = str(b_elem.find("number_phone").text)
+
+            pat = Patient(
+                id=id,
+                name=name,
+                surname=surname,
+                middle_name=middle_name,
+                birth_date=birth_date,
+                geo=geo,
+                number_phone=number_phone,
+            )
+
+            patient.append(pat)
+
+        return Clinic(adress, patient, [], [], [], [], [])
 
     def to_xml(self, path) -> None:
-
         # Создаем корневой элемент
         root = ET.Element("Clinica")
         ET.SubElement(root, "adress").text = str(self.adress)
@@ -353,7 +216,7 @@ class Clinic:
 
 
 ivan = Doctor(
-    1, "Ivan", "Ivanin", "Ivanovich", "21.06.2003", "Mahachkala", "23", "hz", 52
+    1, "Ivan", "Ivanin", "Ivanovich", "21.06.2000", "Mahachkala", "23", "hz", 52
 )
 matrena = Patient(
     1, "Matrena", "Matrenina", "Vladislavovna", "13.02.2004", "Derbent", "+79002001000"
@@ -362,4 +225,8 @@ medsi = Clinic("Moskva", [matrena], [ivan], [], [], [], [])
 medsi.to_json("example.json")
 medsi1 = Clinic.from_json("example.json")
 medsi1.to_xml("example.xml")
-#print(medsi1.adress)
+kontora = Clinic.from_xml("example.xml")
+#r = Patient.get_info(Clinic.get_patient(Clinic.from_xml("example.xml"), 1))
+#print(r)
+# print(kontora.adress)
+# print(medsi1.adress)
