@@ -170,15 +170,20 @@ class Clinic:
         adress = root.find("adress").text
 
         patient = []
-        c_elem = root.find("patients")
-        for b_elem in c_elem.findall("patient"):
-            id = int(b_elem.find("id").text)
-            name = str(b_elem.find("name").text)
-            surname = str(b_elem.find("surname").text)
-            middle_name = str(b_elem.find("middle_name").text)
-            birth_date = str(b_elem.find("birth_date").text)
-            geo = str(b_elem.find("geo").text)
-            number_phone = str(b_elem.find("number_phone").text)
+        doctor = []
+        record = []
+        employe = []
+        room = []
+        department = []
+        elem_patient = root.find("patients")
+        for item in elem_patient.findall("patient"):
+            id = int(item.find("id").text)
+            name = str(item.find("name").text)
+            surname = str(item.find("surname").text)
+            middle_name = str(item.find("middle_name").text)
+            birth_date = str(item.find("birth_date").text)
+            geo = str(item.find("geo").text)
+            number_phone = str(item.find("number_phone").text)
 
             pat = Patient(
                 id=id,
@@ -192,7 +197,51 @@ class Clinic:
 
             patient.append(pat)
 
-        return Clinic(adress, patient, [], [], [], [], [])
+        elem_doctor = root.find("doctor")
+        for item in elem_doctor.findall("doctor"):
+            id = int(item.find("id").text)
+            name = str(item.find("name").text)
+            surname = str(item.find("surname").text)
+            middle_name = str(item.find("middle_name").text)
+            birth_date = str(item.find("birth_date").text)
+            geo = str(item.find("geo").text)
+            contract = str(item.find("contract").text)
+            specialization = str(item.find("specialization").text)
+            department_id = int(item.find("department_id").text)
+
+            doc = Doctor(
+                id=id,
+                name=name,
+                surname=surname,
+                middle_name=middle_name,
+                birth_date=birth_date,
+                geo=geo,
+                contract=contract,
+                specialization=specialization,
+                department_id=department_id,
+            )
+
+            doctor.append(doc)
+
+        elem_record = root.find("record")
+        for item in elem_record.findall("record"):
+            id = int(item.find("id").text)
+            patient_id = int(item.find("patient_id").text)
+            diagnosis_ids = [int(diag.text) for diag in item.find("diagnosis_ids")] # вопросик
+            doctor_id = int(item.find("doctor_id").text)
+            data = str(item.find("data").text)
+
+            rec = Record(
+                id=id,
+                patient_id=patient_id,
+                diagnosis_ids=diagnosis_ids,
+                doctor_id=doctor_id,
+                data=data,
+            )
+
+            record.append(rec)
+
+        return Clinic(adress, patient, doctor, record, [], [], [])
 
     def to_xml(self, path) -> None:
         # Создаем корневой элемент
