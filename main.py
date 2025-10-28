@@ -246,7 +246,7 @@ class Clinic:
             id = int(item.find("id").text)
             name = str(item.find("name").text)
             surname = str(item.find("surname").text)
-            middle = str(item.find("middle").text)
+            middle_name = str(item.find("middle_name").text)
             birth_date = str(item.find("birth_date").text)
             geo = str(item.find("geo").text)
             contract = str(item.find("contract").text)
@@ -255,7 +255,7 @@ class Clinic:
                 id=id,
                 name=name,
                 surname=surname,
-                middle=middle,
+                middle_name=middle_name,
                 birth_date=birth_date,
                 geo=geo,
                 contract=contract,
@@ -297,17 +297,65 @@ class Clinic:
         ET.SubElement(root, "adress").text = str(self.adress)
 
         # для списков
-        c_elem = ET.SubElement(root, "patients")
-        for b_obj in self.patient:
-            b_obj_elem = ET.SubElement(c_elem, "patient")
-            ET.SubElement(b_obj_elem, "id").text = str(b_obj.id)
-            ET.SubElement(b_obj_elem, "name").text = str(b_obj.name)
-            ET.SubElement(b_obj_elem, "surname").text = str(b_obj.surname)
-            ET.SubElement(b_obj_elem, "middle_name").text = str(b_obj.middle_name)
-            ET.SubElement(b_obj_elem, "birth_date").text = str(b_obj.birth_date)
-            ET.SubElement(b_obj_elem, "geo").text = str(b_obj.geo)
-            ET.SubElement(b_obj_elem, "number_phone").text = str(b_obj.number_phone)
-        # Далее для всех этих типа классов из клиники
+
+        elem_patient = ET.SubElement(root, "patients")
+        for obj in self.patient:
+            obj_elem = ET.SubElement(elem_patient, "patient")
+            ET.SubElement(obj_elem, "id").text = str(obj.id)
+            ET.SubElement(obj_elem, "name").text = str(obj.name)
+            ET.SubElement(obj_elem, "surname").text = str(obj.surname)
+            ET.SubElement(obj_elem, "middle_name").text = str(obj.middle_name)
+            ET.SubElement(obj_elem, "birth_date").text = str(obj.birth_date)
+            ET.SubElement(obj_elem, "geo").text = str(obj.geo)
+            ET.SubElement(obj_elem, "number_phone").text = str(obj.number_phone)
+
+        elem_doctor = ET.SubElement(root, "doctor")
+        for obj in self.doctor:
+            obj_elem = ET.SubElement(elem_doctor, "doctor")
+            ET.SubElement(obj_elem, "id").text = int(obj.id)
+            ET.SubElement(obj_elem, "name").text = str(obj.name)
+            ET.SubElement(obj_elem, "surname").text = str(obj.surname)
+            ET.SubElement(obj_elem, "middle_name").text = str(obj.middle_name)
+            ET.SubElement(obj_elem, "birth_date").text = str(obj.birth_date)
+            ET.SubElement(obj_elem, "geo").text = str(obj.geo)
+            ET.SubElement(obj_elem, "contract").text = str(obj.contract)
+            ET.SubElement(obj_elem, "specialization").text = str(obj.specialization)
+            ET.SubElement(obj_elem, "department_id").text = int(obj.department_id)
+
+        elem_record = ET.SubElement(root, "record")
+        for obj in self.record:
+            obj_elem = ET.SubElement(elem_record, "record")
+            ET.SubElement(obj_elem, "id").text = int(obj.id)
+            ET.SubElement(obj_elem, "patient_id").text = int(obj.patient_id)
+            ET.SubElement(obj_elem, "diagnosis_ids").text = ','.join(str(id) for id in obj.diagnosis_ids) # вопросик
+            ET.SubElement(obj_elem, "doctor_id").text = int(obj.doctor_id)
+            ET.SubElement(obj_elem, "data").text = str(obj.data)
+
+        elem_employe = ET.SubElement(root, "employe")
+        for obj in self.employe:
+            obj_elem = ET.SubElement(elem_employe, "employe")
+            ET.SubElement(obj_elem, "id").text = int(obj.id)
+            ET.SubElement(obj_elem, "name").text = str(obj.name)
+            ET.SubElement(obj_elem, "surname").text = str(obj.surname)
+            ET.SubElement(obj_elem, "middle_name").text = str(obj.middle_name)
+            ET.SubElement(obj_elem, "birth_date").text = str(obj.birth_date)
+            ET.SubElement(obj_elem, "geo").text = str(obj.geo)
+            ET.SubElement(obj_elem, "constract").text = str(obj.contract)
+
+        elem_room = ET.SubElement(root, "room")
+        for obj in self.room:
+            obj_elem = ET.SubElement(elem_room, "room")
+            ET.SubElement(obj_elem, "id").text = int(obj.id)
+            ET.SubElement(obj_elem, "number_room").text = str(obj.number_room)
+            ET.SubElement(obj_elem, "department_id").text = int(obj.department_id)
+
+        elem_department = ET.SubElement(root, "department")
+        for obj in self.department:
+            obj_elem = ET.SubElement(elem_department, "department")
+            ET.SubElement(obj_elem, "id").text = int(obj.id)
+            ET.SubElement(obj_elem, "name").text = str(obj.name)
+
+
         tree = ET.ElementTree(root)
         tree.write(path, encoding="utf-8", xml_declaration=True)
 
