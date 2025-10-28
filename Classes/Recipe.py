@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Recipe:
     def __init__(
         self, id: int, med_list: List[str], number: str, data_note: str

@@ -1,377 +1,266 @@
-from typing import List
-import json
-import xml.etree.ElementTree as ET
-from Doctor import Doctor
-from Employe import Employe
-from Patient import Patient
-from Departments import Departments
-from Record import Record
-from Rooms import Rooms
+from Clinic import *
+from Exceptions import *
 
 
-class Clinic:
-    def __init__(
-        self,
-        adress: str,
-        patient: List[Patient],
-        doctor: List[Doctor],
-        record: List[Record],
-        employe: List[Employe],
-        room: List[Rooms],
-        department: List[Departments],
-    ) -> None:
-        self.adress = adress
-        self.patient = patient
-        self.doctor = doctor
-        self.record = record
-        self.employe = employe
-        self.room = room
-        self.department = department
+if __name__ == "__main__":
+    try:
+        # Создаем отделения (уникальные ID)
+        dept1 = Departments(1, "Терапия")
+        dept2 = Departments(2, "Хирургия")
+        dept3 = Departments(3, "Кардиология")
 
-    def get_patient(self, id: int):
-        for item in self.patient:
-            if id == item.id:
-                return item
+        # Создаем пациентов (уникальные ID, отличные от отделений)
+        patient1 = Patient(
+            101,
+            "Матрена",
+            "Матренина",
+            "Владиславовна",
+            "13.02.2004",
+            "Дербент",
+            "+79002001000",
+        )
+        patient2 = Patient(
+            102, "Иван", "Иванов", "Петрович", "15.03.1980", "Москва", "+79003002000"
+        )
+        patient3 = Patient(
+            103,
+            "Светлана",
+            "Сидорова",
+            "Александровна",
+            "20.07.1995",
+            "Казань",
+            "+79004003000",
+        )
 
-    def add_patient(self, patient: Patient) -> None:
-        self.patient.append(patient)
+        # Создаем врачей (уникальные ID)
+        doctor1 = Doctor(
+            201,
+            "Иван",
+            "Иванин",
+            "Иванович",
+            "21.06.2000",
+            "Махачкала",
+            "контракт №23",
+            "терапевт",
+            1,
+        )
+        doctor2 = Doctor(
+            202,
+            "Петр",
+            "Петров",
+            "Сергеевич",
+            "10.05.1985",
+            "Москва",
+            "контракт №45",
+            "хирург",
+            2,
+        )
+        doctor3 = Doctor(
+            203,
+            "Анна",
+            "Каренина",
+            "Владимировна",
+            "30.11.1990",
+            "Санкт-Петербург",
+            "контракт №67",
+            "кардиолог",
+            3,
+        )
 
-    def update_patient(self, id: int, **kwargs) -> None:
-        patient = self.get_patient(id)
+        # Создаем записи (уникальные ID)
+        record1 = Record(301, 101, [1, 2], 201, "13.09.2024", [1, 2])
+        record2 = Record(302, 102, [3, 4], 202, "14.09.2024", [3, 4])
+        record3 = Record(303, 103, [5, 6], 203, "15.09.2024", [5, 6])
 
-        for key, value in kwargs.items():
-            setattr(patient, key, value)
+        # Создаем сотрудников (уникальные ID)
+        employe1 = Employe(
+            401,
+            "Ольга",
+            "Семенова",
+            "Дмитриевна",
+            "05.08.1992",
+            "Москва",
+            "контракт №101",
+        )
+        employe2 = Employe(
+            402,
+            "Сергей",
+            "Кузнецов",
+            "Анатольевич",
+            "12.12.1988",
+            "Казань",
+            "контракт №102",
+        )
+        employe3 = Employe(
+            403, "Мария", "Попова", "Игоревна", "25.04.1995", "Сочи", "контракт №103"
+        )
 
-    def delete_patient(self, id: int) -> None:
-        patient = self.get_patient(id)
+        # Создаем комнаты (уникальные ID)
+        room1 = Rooms(501, "101", 1)
+        room2 = Rooms(502, "201", 2)
+        room3 = Rooms(503, "301", 3)
+        room4 = Rooms(504, "102", 1)
+        room5 = Rooms(505, "202", 2)
 
-        self.patient.remove(patient)
+        # Создаем клинику
+        medsi = Clinic(
+            "Москва, ул. Ленина, д. 25",
+            [patient1, patient2, patient3],
+            [doctor1, doctor2, doctor3],
+            [record1, record2, record3],
+            [employe1, employe2, employe3],
+            [room1, room2, room3, room4, room5],
+            [dept1, dept2, dept3],
+        )
 
-    def get_doctor(self, id: int):
-        for item in self.doctor:
-            if item.id == id:
-                return item
+        print("✅ Клиника успешно создана")
 
-    def add_doctor(self, doctor: Doctor) -> None:
-        self.doctor.append(doctor)
+        # Тестируем функционал пациентов
+        print("\n--- ТЕСТИРОВАНИЕ ПАЦИЕНТОВ ---")
 
-    def update_doctor(self, id: int, **kwargs) -> None:
-        doctor = self.get_doctor(id)
+        # Получаем пациента
+        found_patient = medsi.get_patient(101)
+        print(f"Найден пациент: {found_patient.name} {found_patient.surname}")
 
-        for key, value in kwargs.items():
-            setattr(doctor, key, value)
+        # Обновляем пациента
+        medsi.update_patient(101, name="Мария", geo="Москва")
+        updated_patient = medsi.get_patient(101)
+        print(
+            f"Обновленный пациент: {updated_patient.name}, адрес: {updated_patient.geo}"
+        )
 
-    def delete_doctor(self, id: int) -> None:
-        doctor = self.get_doctor(id)
+        # Добавляем нового пациента
+        new_patient = Patient(
+            104,
+            "Алексей",
+            "Новиков",
+            "Сергеевич",
+            "10.10.1990",
+            "Новосибирск",
+            "+79005004000",
+        )
+        medsi.add_patient(new_patient)
+        print(f"Добавлен новый пациент: {new_patient.name} {new_patient.surname}")
 
-        self.doctor.remove(doctor)
+        # Тестируем функционал врачей
+        print("\n--- ТЕСТИРОВАНИЕ ВРАЧЕЙ ---")
 
-    def get_record(self, id: int):
-        for item in self.record:
-            if item.id == id:
-                return item
+        found_doctor = medsi.get_doctor(201)
+        print(
+            f"Найден врач: {found_doctor.name} {found_doctor.surname}, специальность: {found_doctor.specialization}"
+        )
 
-    def add_record(self, record: Record) -> None:
-        self.record.append(record)
+        medsi.update_doctor(202, specialization="нейрохирург")
+        updated_doctor = medsi.get_doctor(202)
+        print(f"Обновленный врач: {updated_doctor.specialization}")
 
-    def update_record(self, id: int, **kwargs) -> None:
-        record = self.get_record(id)
+        # Тестируем функционал записей
+        print("\n--- ТЕСТИРОВАНИЕ ЗАПИСЕЙ ---")
 
-        for key, value in kwargs.items():
-            setattr(record, key, value)
+        found_record = medsi.get_record(301)
+        print(
+            f"Найдена запись: ID={found_record.id}, пациент ID={found_record.patient_id}"
+        )
 
-    def delete_record(self, id: int) -> None:
-        record = self.get_record(id)
+        medsi.update_record(301, diagnosis_ids=[1, 2, 7])
+        updated_record = medsi.get_record(301)
+        print(f"Обновленная запись: диагнозы {updated_record.diagnosis_ids}")
 
-        self.record.remove(record)
+        # Тестируем функционал сотрудников
+        print("\n--- ТЕСТИРОВАНИЕ СОТРУДНИКОВ ---")
 
-    def get_employe(self, id: int):
-        for item in self.employe:
-            if item.id == id:
-                return item
+        found_employe = medsi.get_employe(401)
+        print(f"Найден сотрудник: {found_employe.name} {found_employe.surname}")
 
-    def add_employe(self, employe: Employe) -> None:
-        self.employe.append(employe)
+        medsi.update_employe(401, contract="контракт №201 (продлен)")
+        updated_employe = medsi.get_employe(401)
+        print(f"Обновленный контракт: {updated_employe.contract}")
 
-    def update_employe(self, id: int, **kwargs) -> None:
-        employe = self.get_employe(id)
+        # Тестируем функционал комнат
+        print("\n--- ТЕСТИРОВАНИЕ КОМНАТ ---")
 
-        for key, value in kwargs.items():
-            setattr(employe, key, value)
+        found_room = medsi.get_room(501)
+        print(f"Найдена комната: №{found_room.number_room}")
 
-    def delete_employe(self, id: int) -> None:
-        employe = self.get_employe(id)
+        medsi.update_room(501, number_room="101-A")
+        updated_room = medsi.get_room(501)
+        print(f"Обновленная комната: №{updated_room.number_room}")
 
-        self.employe.remove(employe)
+        # Тестируем функционал отделений
+        print("\n--- ТЕСТИРОВАНИЕ ОТДЕЛЕНИЙ ---")
 
-    def get_room(self, id: int) -> Rooms:
-        for item in self.room:
-            if item.id == id:
-                return item
+        found_dept = medsi.get_department(1)
+        print(f"Найдено отделение: {found_dept.name}")
 
-    def update_room(self, id: int, **kwargs) -> None:
-        room = self.get_room(id)
+        medsi.update_department(1, name="Общая терапия")
+        updated_dept = medsi.get_department(1)
+        print(f"Обновленное отделение: {updated_dept.name}")
 
-        for key, value in kwargs.items():
-            setattr(room, key, value)
+        # Сохраняем в JSON
+        print("\n--- СОХРАНЕНИЕ В JSON ---")
+        medsi.to_json("clinic_full_data.json")
+        print("✅ Данные сохранены в clinic_full_data.json")
 
-    def get_department(self, id: int) -> Departments:
-        for item in self.department:
-            if item.id == id:
-                return item
+        # Загружаем из JSON
+        print("\n--- ЗАГРУЗКА ИЗ JSON ---")
+        loaded_clinic = Clinic.from_json("clinic_full_data.json")
+        print(f"✅ Данные загружены. Адрес клиники: {loaded_clinic.adress}")
+        print(f"   Пациентов: {len(loaded_clinic.patient)}")
+        print(f"   Врачей: {len(loaded_clinic.doctor)}")
+        print(f"   Записей: {len(loaded_clinic.record)}")
+        print(f"   Сотрудников: {len(loaded_clinic.employe)}")
+        print(f"   Комнат: {len(loaded_clinic.room)}")
+        print(f"   Отделений: {len(loaded_clinic.department)}")
 
-    def update_department(self, id: int, **kwargs) -> None:
-        department = self.get_department(id)
+        # Тестируем исключения
+        print("\n--- ТЕСТИРОВАНИЕ ИСКЛЮЧЕНИЙ ---")
 
-        for key, value in kwargs.items():
-            setattr(department, key, value)
+        try:
+            medsi.get_patient(999)  # Несуществующий ID
+        except PatientNotFoundException as e:
+            print(f"✅ Корректно обработано: {e}")
 
-    @staticmethod
-    def from_json(path) -> "Clinic":
-        with open(path, "r") as file:
-            res = json.load(file)
-
-            for key, value in res.items():
-                if isinstance(value, list):
-                    for item in range(len(value)):
-                        if key == "patient":
-                            value[item] = Patient(**value[item])
-                        elif key == "doctor":
-                            value[item] = Doctor(**value[item])
-                        elif key == "record":
-                            value[item] = Record(**value[item])
-                        elif key == "employe":
-                            value[item] = Employe(**value[item])
-                        elif key == "room":
-                            value[item] = Rooms(**value[item])
-                        elif key == "department":
-                            value[item] = Departments(**value[item])
-        return Clinic(**res)
-
-    def to_json(self, path) -> None:
-        data = {
-            "adress": self.adress,
-            "patient": [item.__dict__ for item in self.patient],
-            "doctor": [item.__dict__ for item in self.doctor],
-            "record": [item.__dict__ for item in self.record],
-            "employe": [item.__dict__ for item in self.employe],
-            "room": [item.__dict__ for item in self.room],
-            "department": [item.__dict__ for item in self.department],
-        }
-
-        with open(path, "w") as file:
-            json.dump(data, file, ensure_ascii=False)
-
-    @staticmethod
-    def from_xml(path) -> "Clinic":
-        tree = ET.parse(path)
-        root = tree.getroot()
-
-        adress = root.find("adress").text
-
-        patient = []
-        doctor = []
-        record = []
-        employe = []
-        rooms = []
-        department = []
-        elem_patient = root.find("patients")
-        for item in elem_patient.findall("patient"):
-            id = int(item.find("id").text)
-            name = str(item.find("name").text)
-            surname = str(item.find("surname").text)
-            middle_name = str(item.find("middle_name").text)
-            birth_date = str(item.find("birth_date").text)
-            geo = str(item.find("geo").text)
-            number_phone = str(item.find("number_phone").text)
-
-            pat = Patient(
-                id=id,
-                name=name,
-                surname=surname,
-                middle_name=middle_name,
-                birth_date=birth_date,
-                geo=geo,
-                number_phone=number_phone,
+        try:
+            duplicate_patient = Patient(
+                101, "Дубликат", "Дубликатов", "", "01.01.2000", "Город", "+79000000000"
             )
+            medsi.add_patient(duplicate_patient)
+        except PatientAlreadyExistsException as e:
+            print(f"✅ Корректно обработано: {e}")
 
-            patient.append(pat)
+        try:
+            # Попытка обновления без изменений
+            medsi.update_patient(102)  # Без параметров
+        except PatientNotUpdateException as e:
+            print(f"✅ Корректно обработано: {e}")
 
-        elem_doctor = root.find("doctor")
-        for item in elem_doctor.findall("doctor"):
-            id = int(item.find("id").text)
-            name = str(item.find("name").text)
-            surname = str(item.find("surname").text)
-            middle_name = str(item.find("middle_name").text)
-            birth_date = str(item.find("birth_date").text)
-            geo = str(item.find("geo").text)
-            contract = str(item.find("contract").text)
-            specialization = str(item.find("specialization").text)
-            department_id = int(item.find("department_id").text)
+        # Сохраняем в XML
+        print("\n--- СОХРАНЕНИЕ В XML ---")
+        medsi.to_xml("clinic_full_data.xml")
+        print("✅ Данные сохранены в clinic_full_data.xml")
 
-            doc = Doctor(
-                id=id,
-                name=name,
-                surname=surname,
-                middle_name=middle_name,
-                birth_date=birth_date,
-                geo=geo,
-                contract=contract,
-                specialization=specialization,
-                department_id=department_id,
-            )
+        # Загружаем из XML
+        print("\n--- ЗАГРУЗКА ИЗ XML ---")
+        xml_clinic = Clinic.from_xml("clinic_full_data.xml")
+        print(f"✅ XML данные загружены. Адрес: {xml_clinic.adress}")
+        print(
+            f"   Первый пациент: {xml_clinic.patient[0].name} {xml_clinic.patient[0].surname}"
+        )
 
-            doctor.append(doc)
+        # Демонстрация удаления
+        print("\n--- ТЕСТИРОВАНИЕ УДАЛЕНИЯ ---")
+        print(f"Пациентов до удаления: {len(medsi.patient)}")
+        medsi.delete_patient(104)
+        print(f"Пациентов после удаления: {len(medsi.patient)}")
 
-        elem_record = root.find("record")
-        for item in elem_record.findall("record"):
-            id = int(item.find("id").text)
-            patient_id = int(item.find("patient_id").text)
-            diagnosis_ids = [int(diag.text) for diag in item.find("diagnosis_ids")] # вопросик
-            doctor_id = int(item.find("doctor_id").text)
-            data = str(item.find("data").text)
+        # Финальное сохранение
+        medsi.to_json("clinic_final.json")
+        print("\n✅ Финальные данные сохранены в clinic_final.json")
 
-            rec = Record(
-                id=id,
-                patient_id=patient_id,
-                diagnosis_ids=diagnosis_ids,
-                doctor_id=doctor_id,
-                data=data,
-            )
+        print("\n🎉 ВСЕ ТЕСТЫ ПРОЙДЕНЫ УСПЕШНО!")
 
-            record.append(rec)
+    except ClinicException as e:
+        print(f"❌ Ошибка клиники: {e}")
 
-        elem_employe = root.find("employe")
-        for item in elem_employe.findall("employe"):
-            id = int(item.find("id").text)
-            name = str(item.find("name").text)
-            surname = str(item.find("surname").text)
-            middle_name = str(item.find("middle_name").text)
-            birth_date = str(item.find("birth_date").text)
-            geo = str(item.find("geo").text)
-            contract = str(item.find("contract").text)
-
-            epl = Employe(
-                id=id,
-                name=name,
-                surname=surname,
-                middle_name=middle_name,
-                birth_date=birth_date,
-                geo=geo,
-                contract=contract,
-            )
-
-            employe.append(epl)
-
-        elem_room = root.find("room")
-        for item in elem_room.findall("room"):
-            id = int(item.find("id").text)
-            number_room = str(item.find("number_room").text)
-            department_id = int(item.find("department_id").text)
-
-            room = Rooms(
-                id=id,
-                number_room=number_room,
-                department_id=department_id,
-            )
-
-            rooms.append(room)
-
-        elem_department = root.find("department")
-        for item in elem_department.findall("department"):
-            id = int(item.find("id").text)
-            name = str(item.find("name").text)
-
-            dprt = Departments(
-                id=id,
-                name=name,
-            )
-
-            department.append(dprt)
-
-        return Clinic(adress, patient, doctor, record, employe, rooms, department)
-
-    def to_xml(self, path) -> None:
-        # Создаем корневой элемент
-        root = ET.Element("Clinica")
-        ET.SubElement(root, "adress").text = str(self.adress)
-
-        # для списков
-
-        elem_patient = ET.SubElement(root, "patients")
-        for obj in self.patient:
-            obj_elem = ET.SubElement(elem_patient, "patient")
-            ET.SubElement(obj_elem, "id").text = str(obj.id)
-            ET.SubElement(obj_elem, "name").text = str(obj.name)
-            ET.SubElement(obj_elem, "surname").text = str(obj.surname)
-            ET.SubElement(obj_elem, "middle_name").text = str(obj.middle_name)
-            ET.SubElement(obj_elem, "birth_date").text = str(obj.birth_date)
-            ET.SubElement(obj_elem, "geo").text = str(obj.geo)
-            ET.SubElement(obj_elem, "number_phone").text = str(obj.number_phone)
-
-        elem_doctor = ET.SubElement(root, "doctor")
-        for obj in self.doctor:
-            obj_elem = ET.SubElement(elem_doctor, "doctor")
-            ET.SubElement(obj_elem, "id").text = int(obj.id)
-            ET.SubElement(obj_elem, "name").text = str(obj.name)
-            ET.SubElement(obj_elem, "surname").text = str(obj.surname)
-            ET.SubElement(obj_elem, "middle_name").text = str(obj.middle_name)
-            ET.SubElement(obj_elem, "birth_date").text = str(obj.birth_date)
-            ET.SubElement(obj_elem, "geo").text = str(obj.geo)
-            ET.SubElement(obj_elem, "contract").text = str(obj.contract)
-            ET.SubElement(obj_elem, "specialization").text = str(obj.specialization)
-            ET.SubElement(obj_elem, "department_id").text = int(obj.department_id)
-
-        elem_record = ET.SubElement(root, "record")
-        for obj in self.record:
-            obj_elem = ET.SubElement(elem_record, "record")
-            ET.SubElement(obj_elem, "id").text = int(obj.id)
-            ET.SubElement(obj_elem, "patient_id").text = int(obj.patient_id)
-            ET.SubElement(obj_elem, "diagnosis_ids").text = ','.join(str(id) for id in obj.diagnosis_ids) # вопросик
-            ET.SubElement(obj_elem, "doctor_id").text = int(obj.doctor_id)
-            ET.SubElement(obj_elem, "data").text = str(obj.data)
-
-        elem_employe = ET.SubElement(root, "employe")
-        for obj in self.employe:
-            obj_elem = ET.SubElement(elem_employe, "employe")
-            ET.SubElement(obj_elem, "id").text = int(obj.id)
-            ET.SubElement(obj_elem, "name").text = str(obj.name)
-            ET.SubElement(obj_elem, "surname").text = str(obj.surname)
-            ET.SubElement(obj_elem, "middle_name").text = str(obj.middle_name)
-            ET.SubElement(obj_elem, "birth_date").text = str(obj.birth_date)
-            ET.SubElement(obj_elem, "geo").text = str(obj.geo)
-            ET.SubElement(obj_elem, "constract").text = str(obj.contract)
-
-        elem_room = ET.SubElement(root, "room")
-        for obj in self.room:
-            obj_elem = ET.SubElement(elem_room, "room")
-            ET.SubElement(obj_elem, "id").text = int(obj.id)
-            ET.SubElement(obj_elem, "number_room").text = str(obj.number_room)
-            ET.SubElement(obj_elem, "department_id").text = int(obj.department_id)
-
-        elem_department = ET.SubElement(root, "department")
-        for obj in self.department:
-            obj_elem = ET.SubElement(elem_department, "department")
-            ET.SubElement(obj_elem, "id").text = int(obj.id)
-            ET.SubElement(obj_elem, "name").text = str(obj.name)
-
-
-        tree = ET.ElementTree(root)
-        tree.write(path, encoding="utf-8", xml_declaration=True)
-
-
-ivan = Doctor(
-    1, "Ivan", "Ivanin", "Ivanovich", "21.06.2000", "Mahachkala", "23", "hz", 52
-)
-matrena = Patient(
-    1, "Matrena", "Matrenina", "Vladislavovna", "13.02.2004", "Derbent", "+79002001000"
-)
-medsi = Clinic("Moskva", [matrena], [ivan], [], [], [], [])
-medsi.to_json("example.json")
-medsi1 = Clinic.from_json("example.json")
-medsi1.to_xml("example.xml")
-kontora = Clinic.from_xml("example.xml")
-#r = Patient.get_info(Clinic.get_patient(Clinic.from_xml("example.xml"), 1))
-#print(r)
-# print(kontora.adress)
-# print(medsi1.adress)
+    except Exception as e:
+        print(f"❌ Неожиданная ошибка: {e}")

@@ -1,4 +1,6 @@
 from Employe import Employe
+
+
 class Doctor(Employe):
     def __init__(
         self,

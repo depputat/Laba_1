@@ -1,5 +1,6 @@
 from Employe import Employe
 
+
 class Staff(Employe):
     def __init__(
         self,
