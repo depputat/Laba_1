@@ -173,7 +173,7 @@ class Clinic:
         doctor = []
         record = []
         employe = []
-        room = []
+        rooms = []
         department = []
         elem_patient = root.find("patients")
         for item in elem_patient.findall("patient"):
@@ -263,7 +263,33 @@ class Clinic:
 
             employe.append(epl)
 
-        return Clinic(adress, patient, doctor, record, employe, [], [])
+        elem_room = root.find("room")
+        for item in elem_room.findall("room"):
+            id = int(item.find("id").text)
+            number_room = str(item.find("number_room").text)
+            department_id = int(item.find("department_id").text)
+
+            room = Rooms(
+                id=id,
+                number_room=number_room,
+                department_id=department_id,
+            )
+
+            rooms.append(room)
+
+        elem_department = root.find("department")
+        for item in elem_department.findall("department"):
+            id = int(item.find("id").text)
+            name = str(item.find("name").text)
+
+            dprt = Departments(
+                id=id,
+                name=name,
+            )
+
+            department.append(dprt)
+
+        return Clinic(adress, patient, doctor, record, employe, rooms, department)
 
     def to_xml(self, path) -> None:
         # Создаем корневой элемент
