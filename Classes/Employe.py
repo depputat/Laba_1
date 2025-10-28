@@ -1,4 +1,4 @@
-from Person import Person
+from Classes.Person import Person
 
 
 class Employe(Person):
@@ -12,8 +12,10 @@ class Employe(Person):
         geo: str,
         contract: str,
     ) -> None:
+        """Инициализация атрибутов сотрудника"""
         super().__init__(id, name, surname, middle_name, birth_date, geo)
         self.contract = contract
 
     def get_info(self) -> str:
+        """Возвращает информацию о сотруднике"""
         return f"Работник поликлиники - {self.surname} {self.name} {self.middle_name}.\nКонтракт: {self.contract}.\nМесто проживания: {self.geo}."

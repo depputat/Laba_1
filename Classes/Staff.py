@@ -13,8 +13,10 @@ class Staff(Employe):
         contract: str,
         dubinka: int,
     ) -> None:
+        """Инициализация атрибутов охранников/уборщиц"""
         super().__init__(id, name, surname, middle, birth_date, geo, contract)
         self.dubinka = dubinka
 
     def get_info(self) -> str:
+        """Возвращает информацию об обхранниках/уборщицах"""
         return f"Это охранник - {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}.\nКонтракт: {self.contract}.\nОборонительное оружие: {self.dubinka}"

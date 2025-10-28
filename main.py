@@ -1,5 +1,5 @@
-from Clinic import *
-from Exceptions import *
+from Classes.Clinic import *
+from Classes.Exceptions import *
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@ class Clinic:
         room: List[Rooms],
         department: List[Departments],
     ) -> None:
+        """Инициализация атрибутов поликлиники"""
         self.adress = adress
         self.patient = patient
         self.doctor = doctor

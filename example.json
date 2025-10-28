@@ -1,1 +1,48 @@
-{"adress": "Moskva", "patient": [{"id": 1, "name": "Matrena", "surname": "Matrenina", "middle_name": "Vladislavovna", "birth_date": "13.02.2004", "geo": "Derbent", "number_phone": "+79002001000"}], "doctor": [{"id": 1, "name": "Ivan", "surname": "Ivanin", "middle_name": "Ivanovich", "birth_date": "21.06.2000", "geo": "Mahachkala", "contract": "23", "specialization": "hz", "departament_id": 52}], "record": [], "employe": [], "room": [], "department": []}
+{
+  "adress": "Moskva",
+  "patient": [
+    {
+      "id": 1,
+      "name": "Matrena",
+      "surname": "Matrenina",
+      "middle_name": "Vladislavovna",
+      "birth_date": "13.02.2004",
+      "geo": "Derbent",
+      "number_phone": "+79002001000"
+    }
+  ],
+  "doctor": [
+    {
+      "id": 1,
+      "name": "Ivan",
+      "surname": "Ivanin",
+      "middle_name": "Ivanovich",
+      "birth_date": "21.06.2000",
+      "geo": "Mahachkala",
+      "contract": "23",
+      "specialization": "hz",
+      "department_id": 52
+    }
+  ],
+  "record": [
+    {
+      "id": 1,
+      "patient_id": 1,
+      "diagnosis_ids": [
+        1,
+        2,
+        3
+      ],
+      "doctor_id": 1,
+      "data": "13.09.2009",
+      "recipe_ids": [
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "employe": [],
+  "room": [],
+  "department": []
+}

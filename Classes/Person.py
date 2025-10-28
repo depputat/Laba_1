@@ -8,6 +8,7 @@ class Person:
         birth_date: str,
         geo: str,
     ) -> None:
+        """Инициализация атрибутов человека"""
         self.id = id
         self.name = name
         self.surname = surname
@@ -16,4 +17,5 @@ class Person:
         self.geo = geo
 
     def get_info(self) -> str:
+        """Возвращает информацию о человеке"""
         return f"Это человек, которого зовут: {self.surname} {self.name} {self.middle_name}.\nДата рождения: {self.birth_date}.\nМесто проживания: {self.geo}."
