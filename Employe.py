@@ -1,4 +1,5 @@
 from Person import Person
+
 class Employe(Person):
     def __init__(
         self,
