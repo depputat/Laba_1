@@ -1,4 +1,5 @@
 from typing import List
+
 class Record:
     def __init__(
         self,
