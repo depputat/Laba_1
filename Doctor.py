@@ -10,11 +10,11 @@ class Doctor(Employe):
         geo: str,
         contract: str,
         specialization: str,
-        departament_id: int,
+        department_id: int,
     ) -> None:
         super().__init__(id, name, surname, middle_name, birth_date, geo, contract)
         self.specialization = specialization
-        self.departament_id = departament_id
+        self.department_id = department_id
 
     def get_info(self) -> str:
-        return f"Это врач: {self.surname} {self.name} {self.middle_name}.\nСпециализация: {self.specialization}.\nРаботает в {self.departament_id} отделении."
+        return f"Это врач: {self.surname} {self.name} {self.middle_name}.\nСпециализация: {self.specialization}.\nРаботает в {self.department_id} отделении."
