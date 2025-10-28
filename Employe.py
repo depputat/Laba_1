@@ -6,12 +6,12 @@ class Employe(Person):
         id: int,
         name: str,
         surname: str,
-        middle: str,
+        middle_name: str,
         birth_date: str,
         geo: str,
         contract: str,
     ) -> None:
-        super().__init__(id, name, surname, middle, birth_date, geo)
+        super().__init__(id, name, surname, middle_name, birth_date, geo)
         self.contract = contract
 
     def get_info(self) -> str:
