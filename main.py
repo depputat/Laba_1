@@ -241,7 +241,29 @@ class Clinic:
 
             record.append(rec)
 
-        return Clinic(adress, patient, doctor, record, [], [], [])
+        elem_employe = root.find("employe")
+        for item in elem_employe.findall("employe"):
+            id = int(item.find("id").text)
+            name = str(item.find("name").text)
+            surname = str(item.find("surname").text)
+            middle = str(item.find("middle").text)
+            birth_date = str(item.find("birth_date").text)
+            geo = str(item.find("geo").text)
+            contract = str(item.find("contract").text)
+
+            epl = Employe(
+                id=id,
+                name=name,
+                surname=surname,
+                middle=middle,
+                birth_date=birth_date,
+                geo=geo,
+                contract=contract,
+            )
+
+            employe.append(epl)
+
+        return Clinic(adress, patient, doctor, record, employe, [], [])
 
     def to_xml(self, path) -> None:
         # Создаем корневой элемент
