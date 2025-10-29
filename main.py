@@ -1,5 +1,5 @@
-from Classes.Clinic import *
-from Classes.Exceptions import *
+from Classes.Clinic import Departments, Doctor, Employe, Patient, Rooms, Record, Clinic
+from Classes.Exceptions import ClinicException, PatientNotUpdateException, PatientNotFoundException, PatientAlreadyExistsException
 
 
 if __name__ == "__main__":
