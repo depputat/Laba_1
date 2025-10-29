@@ -2,6 +2,9 @@ from Classes.Person import Person
 
 
 class Patient(Person):
+    """Класс, представляющий пациента клиники.
+    Содержит информацию о ФИО пациента, дате рождения, места жительства и номере телефона"""
+
     def __init__(
         self,
         id: int,
