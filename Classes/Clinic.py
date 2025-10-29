@@ -7,7 +7,25 @@ from Classes.Patient import Patient
 from Classes.Departments import Departments
 from Classes.Record import Record
 from Classes.Rooms import Rooms
-from Classes.Exceptions import *
+from Classes.Exceptions import (
+    PatientNotFoundException,
+    PatientNotUpdateException,
+    PatientAlreadyExistsException,
+    DoctorNotFoundException,
+    DoctorNotUpdateException,
+    DoctorAlreadyExistsException,
+    DepartmentNotFoundException,
+    DepartmentNotUpdateException,
+    EmployeNotFoundException,
+    EmployeAlreadyExistsException,
+    EmployeNotUpdateException,
+    RoomNotFoundException,
+    RoomNotUpdateException,
+    RecordNotUpdateException,
+    RecordNotFoundException,
+    RecordAlreadyExistsException,
+    DuplicateException,
+)
 
 
 class Clinic:
@@ -54,9 +72,7 @@ class Clinic:
                     )
                 ids_seen.add(entity.id)
 
-    def _check_entity_exists(
-        self, entity_list: List, entity_id: int, entity_name: str
-    ) -> bool:
+    def _check_entity_exists(self, entity_list: List, entity_id: int) -> bool:
         """Проверяет существование сущности по id"""
         return any(entity.id == entity_id for entity in entity_list)
 
@@ -69,7 +85,7 @@ class Clinic:
 
     def add_patient(self, patient: Patient) -> None:
         """Добавление нового пациента"""
-        if self._check_entity_exists(self.patient, patient.id, "Patient"):
+        if self._check_entity_exists(self.patient, patient.id):
             raise PatientAlreadyExistsException(
                 f"Пациент с id={patient.id} уже существует!"
             )
@@ -103,7 +119,7 @@ class Clinic:
 
     def add_doctor(self, doctor: Doctor) -> None:
         """Добавление нового доктора"""
-        if self._check_entity_exists(self.doctor, doctor.id, "Doctor"):
+        if self._check_entity_exists(self.doctor, doctor.id):
             raise DoctorAlreadyExistsException(f"Врач с id={doctor.id} уже сущестует!")
         self.doctor.append(doctor)
 
@@ -135,7 +151,7 @@ class Clinic:
 
     def add_record(self, record: Record) -> None:
         """Добавление новой записи (на примем к врачу)"""
-        if self._check_entity_exists(self.record, record.id, "Record"):
+        if self._check_entity_exists(self.record, record.id):
             raise RecordAlreadyExistsException(
                 f"Запись с id={record.id} уже существует!"
             )
@@ -169,7 +185,7 @@ class Clinic:
 
     def add_employe(self, employe: Employe) -> None:
         """Добавление нового сотрудника"""
-        if self._check_entity_exists(self.employe, employe.id, "Employe"):
+        if self._check_entity_exists(self.employe, employe.id):
             raise EmployeAlreadyExistsException(
                 f"Сотрудник с id={employe.id} уже существует!"
             )
@@ -220,7 +236,7 @@ class Clinic:
         for item in self.department:
             if item.id == id:
                 return item
-        raise DoctorNotFoundException(f"Отделение id={id} не найдено!")
+        raise DepartmentNotFoundException(f"Отделение id={id} не найдено!")
 
     def update_department(self, id: int, **kwargs) -> None:
         """Обновление данных об отделении"""
