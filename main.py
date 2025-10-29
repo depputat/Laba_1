@@ -5,12 +5,12 @@ from Classes.Exceptions import *
 if __name__ == "__main__":
     try:
         # Создаем отделения (уникальные ID)
-        dept1 = Departments(1, "Терапия")
-        dept2 = Departments(2, "Хирургия")
-        dept3 = Departments(3, "Кардиология")
+        dept_1 = Departments(1, "Терапия")
+        dept_2 = Departments(2, "Хирургия")
+        dept_3 = Departments(3, "Кардиология")
 
         # Создаем пациентов (уникальные ID, отличные от отделений)
-        patient1 = Patient(
+        patient_1 = Patient(
             101,
             "Матрена",
             "Матренина",
@@ -19,10 +19,10 @@ if __name__ == "__main__":
             "Дербент",
             "+79002001000",
         )
-        patient2 = Patient(
+        patient_2 = Patient(
             102, "Иван", "Иванов", "Петрович", "15.03.1980", "Москва", "+79003002000"
         )
-        patient3 = Patient(
+        patient_3 = Patient(
             103,
             "Светлана",
             "Сидорова",
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         )
 
         # Создаем врачей (уникальные ID)
-        doctor1 = Doctor(
+        doctor_1 = Doctor(
             201,
             "Иван",
             "Иванин",
@@ -44,7 +44,7 @@ if __name__ == "__main__":
             "терапевт",
             1,
         )
-        doctor2 = Doctor(
+        doctor_2 = Doctor(
             202,
             "Петр",
             "Петров",
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             "хирург",
             2,
         )
-        doctor3 = Doctor(
+        doctor_3 = Doctor(
             203,
             "Анна",
             "Каренина",
@@ -68,12 +68,12 @@ if __name__ == "__main__":
         )
 
         # Создаем записи (уникальные ID)
-        record1 = Record(301, 101, [1, 2], 201, "13.09.2024", [1, 2])
-        record2 = Record(302, 102, [3, 4], 202, "14.09.2024", [3, 4])
-        record3 = Record(303, 103, [5, 6], 203, "15.09.2024", [5, 6])
+        record_1 = Record(301, 101, [1, 2], 201, "13.09.2024", [1, 2])
+        record_2 = Record(302, 102, [3, 4], 202, "14.09.2024", [3, 4])
+        record_3 = Record(303, 103, [5, 6], 203, "15.09.2024", [5, 6])
 
         # Создаем сотрудников (уникальные ID)
-        employe1 = Employe(
+        employe_1 = Employe(
             401,
             "Ольга",
             "Семенова",
@@ -82,7 +82,7 @@ if __name__ == "__main__":
             "Москва",
             "контракт №101",
         )
-        employe2 = Employe(
+        employe_2 = Employe(
             402,
             "Сергей",
             "Кузнецов",
@@ -91,29 +91,29 @@ if __name__ == "__main__":
             "Казань",
             "контракт №102",
         )
-        employe3 = Employe(
+        employe_3 = Employe(
             403, "Мария", "Попова", "Игоревна", "25.04.1995", "Сочи", "контракт №103"
         )
 
         # Создаем комнаты (уникальные ID)
-        room1 = Rooms(501, "101", 1)
-        room2 = Rooms(502, "201", 2)
-        room3 = Rooms(503, "301", 3)
-        room4 = Rooms(504, "102", 1)
-        room5 = Rooms(505, "202", 2)
+        room_1 = Rooms(501, "101", 1)
+        room_2 = Rooms(502, "201", 2)
+        room_3 = Rooms(503, "301", 3)
+        room_4 = Rooms(504, "102", 1)
+        room_5 = Rooms(505, "202", 2)
 
         # Создаем клинику
         medsi = Clinic(
             "Москва, ул. Ленина, д. 25",
-            [patient1, patient2, patient3],
-            [doctor1, doctor2, doctor3],
-            [record1, record2, record3],
-            [employe1, employe2, employe3],
-            [room1, room2, room3, room4, room5],
-            [dept1, dept2, dept3],
+            [patient_1, patient_2, patient_3],
+            [doctor_1, doctor_2, doctor_3],
+            [record_1, record_2, record_3],
+            [employe_1, employe_2, employe_3],
+            [room_1, room_2, room_3, room_4, room_5],
+            [dept_1, dept_2, dept_3],
         )
 
-        print("✅ Клиника успешно создана")
+        print("Клиника успешно создана")
 
         # Тестируем функционал пациентов
         print("\n--- ТЕСТИРОВАНИЕ ПАЦИЕНТОВ ---")
@@ -199,18 +199,18 @@ if __name__ == "__main__":
         # Сохраняем в JSON
         print("\n--- СОХРАНЕНИЕ В JSON ---")
         medsi.to_json("clinic_full_data.json")
-        print("✅ Данные сохранены в clinic_full_data.json")
+        print("Данные сохранены в clinic_full_data.json")
 
         # Загружаем из JSON
         print("\n--- ЗАГРУЗКА ИЗ JSON ---")
         loaded_clinic = Clinic.from_json("clinic_full_data.json")
-        print(f"✅ Данные загружены. Адрес клиники: {loaded_clinic.adress}")
-        print(f"   Пациентов: {len(loaded_clinic.patient)}")
-        print(f"   Врачей: {len(loaded_clinic.doctor)}")
-        print(f"   Записей: {len(loaded_clinic.record)}")
-        print(f"   Сотрудников: {len(loaded_clinic.employe)}")
-        print(f"   Комнат: {len(loaded_clinic.room)}")
-        print(f"   Отделений: {len(loaded_clinic.department)}")
+        print(f"Данные загружены. Адрес клиники: {loaded_clinic.adress}")
+        print(f"Пациентов: {len(loaded_clinic.patient)}")
+        print(f"Врачей: {len(loaded_clinic.doctor)}")
+        print(f"Записей: {len(loaded_clinic.record)}")
+        print(f"Сотрудников: {len(loaded_clinic.employe)}")
+        print(f"Комнат: {len(loaded_clinic.room)}")
+        print(f"Отделений: {len(loaded_clinic.department)}")
 
         # Тестируем исключения
         print("\n--- ТЕСТИРОВАНИЕ ИСКЛЮЧЕНИЙ ---")
@@ -218,7 +218,7 @@ if __name__ == "__main__":
         try:
             medsi.get_patient(999)  # Несуществующий ID
         except PatientNotFoundException as e:
-            print(f"✅ Корректно обработано: {e}")
+            print(f"Корректно обработано: {e}")
 
         try:
             duplicate_patient = Patient(
@@ -226,25 +226,25 @@ if __name__ == "__main__":
             )
             medsi.add_patient(duplicate_patient)
         except PatientAlreadyExistsException as e:
-            print(f"✅ Корректно обработано: {e}")
+            print(f"Корректно обработано: {e}")
 
         try:
             # Попытка обновления без изменений
             medsi.update_patient(102)  # Без параметров
         except PatientNotUpdateException as e:
-            print(f"✅ Корректно обработано: {e}")
+            print(f"Корректно обработано: {e}")
 
         # Сохраняем в XML
         print("\n--- СОХРАНЕНИЕ В XML ---")
         medsi.to_xml("clinic_full_data.xml")
-        print("✅ Данные сохранены в clinic_full_data.xml")
+        print("Данные сохранены в clinic_full_data.xml")
 
         # Загружаем из XML
         print("\n--- ЗАГРУЗКА ИЗ XML ---")
         xml_clinic = Clinic.from_xml("clinic_full_data.xml")
-        print(f"✅ XML данные загружены. Адрес: {xml_clinic.adress}")
+        print(f"XML данные загружены. Адрес: {xml_clinic.adress}")
         print(
-            f"   Первый пациент: {xml_clinic.patient[0].name} {xml_clinic.patient[0].surname}"
+            f"Первый пациент: {xml_clinic.patient[0].name} {xml_clinic.patient[0].surname}"
         )
 
         # Демонстрация удаления
@@ -255,12 +255,12 @@ if __name__ == "__main__":
 
         # Финальное сохранение
         medsi.to_json("clinic_final.json")
-        print("\n✅ Финальные данные сохранены в clinic_final.json")
+        print("\nФинальные данные сохранены в clinic_final.json")
 
-        print("\n🎉 ВСЕ ТЕСТЫ ПРОЙДЕНЫ УСПЕШНО!")
+        print("\nВСЕ ТЕСТЫ ПРОЙДЕНЫ УСПЕШНО!")
 
     except ClinicException as e:
-        print(f"❌ Ошибка клиники: {e}")
+        print(f"Ошибка клиники: {e}")
 
     except Exception as e:
-        print(f"❌ Неожиданная ошибка: {e}")
+        print(f"Неожиданная ошибка: {e}")
