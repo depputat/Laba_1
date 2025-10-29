@@ -1,4 +1,7 @@
 class Diagnosis:
+    """Класс, представляющий диагнозы пациентов.
+    Содержит номер и расшифровку диагноза"""
+
     def __init__(self, id: int, number_mkb: str, description: str) -> None:
         """Инициализация атрибутов диагнозов"""
         self.id = id
