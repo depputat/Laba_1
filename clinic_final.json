@@ -1,1 +1,182 @@
-{"adress": "Москва, ул. Ленина, д. 25", "patient": [{"id": 101, "name": "Мария", "surname": "Матренина", "middle_name": "Владиславовна", "birth_date": "13.02.2004", "geo": "Москва", "number_phone": "+79002001000"}, {"id": 102, "name": "Иван", "surname": "Иванов", "middle_name": "Петрович", "birth_date": "15.03.1980", "geo": "Москва", "number_phone": "+79003002000"}, {"id": 103, "name": "Светлана", "surname": "Сидорова", "middle_name": "Александровна", "birth_date": "20.07.1995", "geo": "Казань", "number_phone": "+79004003000"}], "doctor": [{"id": 201, "name": "Иван", "surname": "Иванин", "middle_name": "Иванович", "birth_date": "21.06.2000", "geo": "Махачкала", "contract": "контракт №23", "specialization": "терапевт", "department_id": 1}, {"id": 202, "name": "Петр", "surname": "Петров", "middle_name": "Сергеевич", "birth_date": "10.05.1985", "geo": "Москва", "contract": "контракт №45", "specialization": "нейрохирург", "department_id": 2}, {"id": 203, "name": "Анна", "surname": "Каренина", "middle_name": "Владимировна", "birth_date": "30.11.1990", "geo": "Санкт-Петербург", "contract": "контракт №67", "specialization": "кардиолог", "department_id": 3}], "record": [{"id": 301, "patient_id": 101, "diagnosis_ids": [1, 2, 7], "doctor_id": 201, "data": "13.09.2024", "recipe_ids": [1, 2]}, {"id": 302, "patient_id": 102, "diagnosis_ids": [3, 4], "doctor_id": 202, "data": "14.09.2024", "recipe_ids": [3, 4]}, {"id": 303, "patient_id": 103, "diagnosis_ids": [5, 6], "doctor_id": 203, "data": "15.09.2024", "recipe_ids": [5, 6]}], "employe": [{"id": 401, "name": "Ольга", "surname": "Семенова", "middle_name": "Дмитриевна", "birth_date": "05.08.1992", "geo": "Москва", "contract": "контракт №201 (продлен)"}, {"id": 402, "name": "Сергей", "surname": "Кузнецов", "middle_name": "Анатольевич", "birth_date": "12.12.1988", "geo": "Казань", "contract": "контракт №102"}, {"id": 403, "name": "Мария", "surname": "Попова", "middle_name": "Игоревна", "birth_date": "25.04.1995", "geo": "Сочи", "contract": "контракт №103"}], "room": [{"id": 501, "number_room": "101-A", "department_id": 1}, {"id": 502, "number_room": "201", "department_id": 2}, {"id": 503, "number_room": "301", "department_id": 3}, {"id": 504, "number_room": "102", "department_id": 1}, {"id": 505, "number_room": "202", "department_id": 2}], "department": [{"id": 1, "name": "Общая терапия"}, {"id": 2, "name": "Хирургия"}, {"id": 3, "name": "Кардиология"}]}
+{
+  "adress": "Москва, ул. Ленина, д. 25",
+  "patient": [
+    {
+      "id": 101,
+      "name": "Мария",
+      "surname": "Матренина",
+      "middle_name": "Владиславовна",
+      "birth_date": "13.02.2004",
+      "geo": "Москва",
+      "number_phone": "+79002001000"
+    },
+    {
+      "id": 102,
+      "name": "Иван",
+      "surname": "Иванов",
+      "middle_name": "Петрович",
+      "birth_date": "15.03.1980",
+      "geo": "Москва",
+      "number_phone": "+79003002000"
+    },
+    {
+      "id": 103,
+      "name": "Светлана",
+      "surname": "Сидорова",
+      "middle_name": "Александровна",
+      "birth_date": "20.07.1995",
+      "geo": "Казань",
+      "number_phone": "+79004003000"
+    }
+  ],
+  "doctor": [
+    {
+      "id": 201,
+      "name": "Иван",
+      "surname": "Иванин",
+      "middle_name": "Иванович",
+      "birth_date": "21.06.2000",
+      "geo": "Махачкала",
+      "contract": "контракт №23",
+      "specialization": "терапевт",
+      "department_id": 1
+    },
+    {
+      "id": 202,
+      "name": "Петр",
+      "surname": "Петров",
+      "middle_name": "Сергеевич",
+      "birth_date": "10.05.1985",
+      "geo": "Москва",
+      "contract": "контракт №45",
+      "specialization": "нейрохирург",
+      "department_id": 2
+    },
+    {
+      "id": 203,
+      "name": "Анна",
+      "surname": "Каренина",
+      "middle_name": "Владимировна",
+      "birth_date": "30.11.1990",
+      "geo": "Санкт-Петербург",
+      "contract": "контракт №67",
+      "specialization": "кардиолог",
+      "department_id": 3
+    }
+  ],
+  "record": [
+    {
+      "id": 301,
+      "patient_id": 101,
+      "diagnosis_ids": [
+        1,
+        2,
+        7
+      ],
+      "doctor_id": 201,
+      "data": "13.09.2024",
+      "recipe_ids": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 302,
+      "patient_id": 102,
+      "diagnosis_ids": [
+        3,
+        4
+      ],
+      "doctor_id": 202,
+      "data": "14.09.2024",
+      "recipe_ids": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": 303,
+      "patient_id": 103,
+      "diagnosis_ids": [
+        5,
+        6
+      ],
+      "doctor_id": 203,
+      "data": "15.09.2024",
+      "recipe_ids": [
+        5,
+        6
+      ]
+    }
+  ],
+  "employe": [
+    {
+      "id": 401,
+      "name": "Ольга",
+      "surname": "Семенова",
+      "middle_name": "Дмитриевна",
+      "birth_date": "05.08.1992",
+      "geo": "Москва",
+      "contract": "контракт №201 (продлен)"
+    },
+    {
+      "id": 402,
+      "name": "Сергей",
+      "surname": "Кузнецов",
+      "middle_name": "Анатольевич",
+      "birth_date": "12.12.1988",
+      "geo": "Казань",
+      "contract": "контракт №102"
+    },
+    {
+      "id": 403,
+      "name": "Мария",
+      "surname": "Попова",
+      "middle_name": "Игоревна",
+      "birth_date": "25.04.1995",
+      "geo": "Сочи",
+      "contract": "контракт №103"
+    }
+  ],
+  "room": [
+    {
+      "id": 501,
+      "number_room": "101-A",
+      "department_id": 1
+    },
+    {
+      "id": 502,
+      "number_room": "201",
+      "department_id": 2
+    },
+    {
+      "id": 503,
+      "number_room": "301",
+      "department_id": 3
+    },
+    {
+      "id": 504,
+      "number_room": "102",
+      "department_id": 1
+    },
+    {
+      "id": 505,
+      "number_room": "202",
+      "department_id": 2
+    }
+  ],
+  "department": [
+    {
+      "id": 1,
+      "name": "Общая терапия"
+    },
+    {
+      "id": 2,
+      "name": "Хирургия"
+    },
+    {
+      "id": 3,
+      "name": "Кардиология"
+    }
+  ]
+}
