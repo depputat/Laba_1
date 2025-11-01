@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import json
 import xml.etree.ElementTree as ET
 from Classes.Doctor import Doctor
@@ -254,26 +254,30 @@ class Clinic:
             )
 
     @staticmethod
-    def from_json(path) -> "Clinic":
+    def from_json(path) -> Optional["Clinic"]:
         """Создаёт объект Clinic из json-файл"""
-        with open(path, "r") as file:
-            res = json.load(file)
+        try:
+            with open(path, "r") as file:
+                res = json.load(file)
+        except FileNotFoundError:
+            print("Проверь название файла!")
+            return None
 
-            for key, value in res.items():
-                if isinstance(value, list):
-                    for item in range(len(value)):
-                        if key == "patient":
-                            value[item] = Patient(**value[item])
-                        elif key == "doctor":
-                            value[item] = Doctor(**value[item])
-                        elif key == "record":
-                            value[item] = Record(**value[item])
-                        elif key == "employe":
-                            value[item] = Employe(**value[item])
-                        elif key == "room":
-                            value[item] = Rooms(**value[item])
-                        elif key == "department":
-                            value[item] = Departments(**value[item])
+        for key, value in res.items():
+            if isinstance(value, list):
+                for item in range(len(value)):
+                    if key == "patient":
+                        value[item] = Patient(**value[item])
+                    elif key == "doctor":
+                        value[item] = Doctor(**value[item])
+                    elif key == "record":
+                        value[item] = Record(**value[item])
+                    elif key == "employe":
+                        value[item] = Employe(**value[item])
+                    elif key == "room":
+                        value[item] = Rooms(**value[item])
+                    elif key == "department":
+                        value[item] = Departments(**value[item])
         return Clinic(**res)
 
     def to_json(self, path) -> None:
